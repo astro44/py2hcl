@@ -5,7 +5,8 @@ import copy
 from collections import abc
 
 # import hcl
-
+# Author: rcolvin
+# use at own risk.
 
 class py2hcl:
     def __init__(self):
