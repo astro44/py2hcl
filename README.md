@@ -8,7 +8,7 @@ dd = {'sb_permissions': {'dynamodbs': [{'arn': 'dddddddd', 'streamspec': {'Strea
 dy = pcl.dumps(dd)   
 ```
 
-above will output:
+above will output HCL:
 ```
 sb_permissions={
         dynamodbs = [
