@@ -10,6 +10,7 @@ from collections import abc
 # use at own risk.
 
 class py2hcl:
+
     def __init__(self):
         pass
 
@@ -58,9 +59,9 @@ class py2hcl:
                 mspc = "".join([spaces for spc in appKey])
                 ppKey = appKey[0]
 
-            simpleObj = False
-            if isinstance(parentObj, abc.Mapping) and (isinstance(value, (int, float)) or isinstance(value, (str))):
-                simpleObj = True
+            # simpleObj = False
+            # if isinstance(parentObj, abc.Mapping) and (isinstance(value, (int, float)) or isinstance(value, (str))):
+            #     simpleObj = True
 
             insideObj, walked = self.prev_brace(parentKeyString, brace_contexts)
 
@@ -132,12 +133,14 @@ class py2hcl:
                 ppkey = key
             # print("    iter.... now---> %s" % (key))
             yield ppkey, key, value, pObj
-            if isinstance(value, abc.Mapping):
-                yield from self.nested_dict_iter(value, ppkey)
-            if isinstance(value, list):
-                if isinstance(value[0], abc.Mapping):
-                    for vv in value:
-                        yield from self.nested_dict_iter(vv, ppkey)
+            if value:
+                if isinstance(value, abc.Mapping):
+                    yield from self.nested_dict_iter(value, ppkey)
+                if isinstance(value, list):
+                    # print(value)
+                    if isinstance(value[0], abc.Mapping):
+                        for vv in value:
+                            yield from self.nested_dict_iter(vv, ppkey)
 
     def brace_nearest(self, key, braces):
         for brace in braces:
@@ -148,7 +151,13 @@ class py2hcl:
     def resolve_valueInType(self, value):
         txt = ""
         if isinstance(value, str):
-            txt = txt + f'"{value}"'
+            begin = end = ""
+            if '\n' in value or '"' in value:
+                begin = "<<EOF\n"
+                end = "\nEOF"
+                txt = txt + f'{begin}{value}{end}'
+            else:
+                txt = txt + f'"{value}"'
         elif isinstance(value, bool):
             vbool = 'true' if value else 'false'
             txt = txt + f'{vbool}'
@@ -175,6 +184,20 @@ class py2hcl:
                 break
         return isSimple
 
+    # def cleanResult(self, value):
+    #     dy = value
+    #     dy = dy.replace("z{", "{")
+    #     dy = dy.replace("p[", "[")
+    #     dy = dy.replace("z[", "[")
+    #     dy = dy.replace("q{", "{")
+    #     dy = dy.replace("r{", "{")
+    #     dy = dy.replace("}z", "}")
+    #     dy = dy.replace("]z", "]")
+    #     dy = dy.replace("}m", "}")
+    #     dy = dy.replace("}q", "}")
+    #     dy = dy.replace("}r", "}")
+    #     return dy
+
 
 if __name__ == '__main__':
     pcl = py2hcl()
@@ -183,4 +206,6 @@ if __name__ == '__main__':
     dd = {'sb_permissions': {'dynamodbs': [{'arn': 'dddddddd', 'streamspec': {'StreamEnabled': True, 'StreamViewType': 'NEW_AND_OLD_IMAGES'}, 'write_capacity': 1}], 'eid': '///Ro9'}}
     dy = pcl.dumps(dd)
 
-    print(dy)
+    # print(dy)
+
+    #END
