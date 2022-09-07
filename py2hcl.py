@@ -4,6 +4,7 @@ import json
 import copy
 from collections import abc
 
+# https://github.com/astro44/py2hcl/blob/main/py2hcl.py
 # import hcl
 # Author: rcolvin
 # use at own risk.
