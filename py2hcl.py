@@ -184,21 +184,6 @@ class py2hcl:
                 break
         return isSimple
 
-    # def cleanResult(self, value):
-    #     dy = value
-    #     dy = dy.replace("z{", "{")
-    #     dy = dy.replace("p[", "[")
-    #     dy = dy.replace("z[", "[")
-    #     dy = dy.replace("q{", "{")
-    #     dy = dy.replace("r{", "{")
-    #     dy = dy.replace("}z", "}")
-    #     dy = dy.replace("]z", "]")
-    #     dy = dy.replace("}m", "}")
-    #     dy = dy.replace("}q", "}")
-    #     dy = dy.replace("}r", "}")
-    #     return dy
-
-
 if __name__ == '__main__':
     pcl = py2hcl()
     # fullTest = False
