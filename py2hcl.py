@@ -126,7 +126,6 @@ class py2hcl:
 
     def nested_dict_iter(self, nested, parentKey=None):
         pObj = nested
-        lastKey = None
         for key, value in nested.items():
             ppkey = "%s,%s" % (parentKey, key)
             if parentKey is None:
